@@ -16,16 +16,19 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP", "HKD",
                          "IDR","ILS","INR","JPY","MXN","NOK", "NZD",
                          "PLN","RON","RUB","SEK","SGD","USD","ZAR"]
-    let currencySymbolArray: [String] = ["$", "RS", "$", "¥", "€", "£", "$",
-                                         "Rp", "₪", "¥", "$", "kr", "$", "zł",
-                                         "L", "₽", "kr", "£", "$", "R"]
-    let flagEmoji = ["🇦🇺", "🇧🇷" ]
+    let currencySymbolArray: [String] = ["$", "R$", "$", "¥", "€",
+                                         "£", "$", "Rp", "₪", "₹", "¥",
+                                         "$", "kr", "$", "zł","L",
+                                         "₽", "kr", "$", "$", "R"]
+    let flagEmoji = ["🇦🇺", "🇧🇷", "🇨🇦", "🇨🇳", "🇪🇺", "🇬🇧", "🇭🇰", "🇮🇩", "🇮🇱", "🇮🇳", "🇯🇵", "🇲🇽", "🇳🇴", "🇳🇿", "🇵🇱", "🇷🇴", "🇷🇺", "🇸🇪", "🇸🇬", "🇺🇸", "🇿🇦" ]
     var finalURL = ""
     var currencySelected = ""
+    var flagSelected = ""
     
     //Pre-setup IBOutlets
     @IBOutlet weak var bitcoinPriceLabel: UILabel!
     @IBOutlet weak var currencyPicker: UIPickerView!
+    @IBOutlet weak var flagLabel: UILabel!
     
     // View Cycle
     override func viewDidLoad() {
@@ -53,6 +56,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         print(finalURL)
         getBitcoinData(url: finalURL)
         currencySelected = currencySymbolArray[row]
+        flagSelected = flagEmoji[row]
     }
     
     
@@ -79,6 +83,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func updateBitcoinData(json : JSON) {
         if let bitcoinResult = json["ask"].double {
             bitcoinPriceLabel.text = currencySelected + String(bitcoinResult)
+            flagLabel.text = flagSelected
             print(bitcoinResult)
         } else {
             bitcoinPriceLabel.text = "Data Unavailable"
